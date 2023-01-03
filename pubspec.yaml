@@ -1,6 +1,6 @@
 name: dart_dyncache
 description: an attempt a dynamic and flexible library for all caching needs
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/kralverde/dart-dyncache
 
 environment:
