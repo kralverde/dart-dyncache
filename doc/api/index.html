@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 6.0.0">
+  <meta name="description" content="dart_dyncache API docs, for the Dart programming language.">
+  <title>dart_dyncache - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">dart_dyncache package</li>
+  </ol>
+  <div class="self-name">dart_dyncache</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="dyncache">DynCache</h1>
+<p>DynCache is an attempt a dynamic and flexible library for all caching needs in <code>dart</code>.</p>
+<p>DynCache is intended to store the results of resource or time intensive methods like database queries. 
+Elements in the cache are garbage collected immediately when evicted from the cache. (e.g. calling <code>set</code>
+when the <code>length</code> == <code>cacheCapacity</code>).</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Ordered storage (weighted key-value pairs)</li>
+<li>A cache implementation that supports eviction call backs, custom entry weight, and auxiliary keys</li>
+<li>Implementations of FIFO, LRU, and LFU caches</li>
+</ul>
+<h2 id="auxiliary-keys">Auxiliary Keys</h2>
+<p>When caching objects, you may want to query the same object using two distinct keys. When initializing
+a cache, you have the option of adding <code>AuxiliaryKeyManager</code>s; a way to map one key to another.</p>
+<p>The set of all possible auxiliary keys from a given <code>AuxiliaryKeyManager</code> should not intersect with
+the set of all possible main keys. There should be a 1-1 mapping between main keys and auxiliary keys.
+The main key should be recoverable given the auxiliary key and value and vice-versa.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="basic-cache-usage">Basic Cache Usage</h3>
+<pre class="language-dart"><code class="language-dart">final cache = FIFODynamicCache&lt;int, String&gt;(10,
+    storageGenerator: &lt;K, V&gt;(entryWeight) =&gt;
+        OrderedMap(entryWeight: entryWeight));
+
+cache.set(1, 'val1');
+cache.get(1); // 'val1'
+cache.get(2); // null
+
+for (int i = 10; i &lt; 20; i++) {
+    cache.set(i, 'val$i');
+}
+cache.get(1); // null
+</code></pre>
+<h3 id="a-lfru-cache-implementation">A LFRU Cache Implementation</h3>
+<pre class="language-dart"><code class="language-dart">final cache = FIFODynamicCache&lt;int, String&gt;(10,
+    entryWeight: (key, value, accessWeight, accessesSinceLastHit) =&gt; accessWeight - (accessesSinceLastHit / 1000),
+    storageGenerator: &lt;K, V&gt;(entryWeight) =&gt;
+        OrderedMap(entryWeight: entryWeight));
+</code></pre>
+<h3 id="auxiliary-key-mapping">Auxiliary Key Mapping</h3>
+<pre class="language-dart"><code class="language-dart">final manager = AuxiliaryKeyManager&lt;String, int, String&gt;(
+    generateAuxiliaryKeyFromMainKeyAndValue: (mainKey, value) =&gt;
+        '$mainKey',
+    generateMainKeyFromAuxiliaryKeyAndValue: (auxiliaryKey, value) =&gt;
+        int.parse(auxiliaryKey));
+
+final cache = FIFODynamicCache&lt;int, String&gt;(10,
+    storageGenerator: &lt;K, V&gt;(entryWeight) =&gt;
+        OrderedMap(entryWeight: entryWeight),
+    auxiliaryKeyManagers: [manager]);
+
+cache.set(1, 'val1');
+cache.get(1);   // 'val1'
+cache.get('1'); // 'val1'
+
+cache.set('2', 'val2');
+cache.get(2);   // 'val2'
+cache.get('2'); // 'val2'
+</code></pre>
+<h3 id="on-eviction-callbacks">On Eviction Callbacks</h3>
+<pre class="language-dart"><code class="language-dart">void callback(int key, String value) {
+    print('$key:$value');
+}
+
+final cache = FIFODynamicCache&lt;int, String&gt;(10,
+    storageGenerator: &lt;K, V&gt;(entryWeight) =&gt;
+        OrderedMap(entryWeight: entryWeight),
+    onEvict: callback);
+
+cache.set(1, 'val1');
+cache.remove(1); // &gt;'1:val1'
+
+cache.set(2, 'val2');
+for (int i = 3; i &lt; 11; i++) {
+    cache.set(i, '');
+}
+// &gt;'2:val2'
+</code></pre>
+<p>See the <code>/example</code> folder for more in-depth commented cases.</p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="dart_dyncache">
+  <span class="name"><a href="dart_dyncache/dart_dyncache-library.html">dart_dyncache</a></span> 
+
+</dt>
+<dd>An attempt at an all-purpose dynamic caching library.
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li class="self-crumb">dart_dyncache package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">dart_dyncache</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="dart_dyncache/dart_dyncache-library.html">dart_dyncache</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    dart_dyncache
+      1.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

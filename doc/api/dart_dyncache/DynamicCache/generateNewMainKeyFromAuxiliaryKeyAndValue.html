@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the generateNewMainKeyFromAuxiliaryKeyAndValue method from the DynamicCache class, for the Dart programming language.">
+  <title>generateNewMainKeyFromAuxiliaryKeyAndValue method - DynamicCache class - dart_dyncache library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">dart_dyncache</a></li>
+    <li><a href="../../dart_dyncache/dart_dyncache-library.html">dart_dyncache</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache-class.html">DynamicCache<span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></a></li>
+    <li class="self-crumb">generateNewMainKeyFromAuxiliaryKeyAndValue method</li>
+  </ol>
+  <div class="self-name">generateNewMainKeyFromAuxiliaryKeyAndValue</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">generateNewMainKeyFromAuxiliaryKeyAndValue</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype">K</span>
+<span class="name ">generateNewMainKeyFromAuxiliaryKeyAndValue</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="generateNewMainKeyFromAuxiliaryKeyAndValue-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span>, </span></li>
+<li><span class="parameter" id="generateNewMainKeyFromAuxiliaryKeyAndValue-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Given some auxiliary key and value, generate the associated main key.</p>
+<p>The first <a href="../../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a> that can handle the <a href="https://api.dart.dev/stable/2.18.6/dart-core/Type-class.html">Type</a> of <code>key</code>
+returns the main key from <a href="../../dart_dyncache/AuxiliaryKeyManager/generateMainKeyFromAuxiliaryKeyAndValue.html">AuxiliaryKeyManager.generateMainKeyFromAuxiliaryKeyAndValue</a>.</p>
+<p>throws <a href="../../dart_dyncache/DynCacheAuxKeyCollisionException-class.html">DynCacheAuxKeyCollisionException</a> if <a href="../../dart_dyncache/DynamicCache/checkAuxiliaryKeys.html">checkAuxiliaryKeys</a> is
+<code>true</code> and a generated main key exists in the main key set or
+in another auxiliary key set.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">K generateNewMainKeyFromAuxiliaryKeyAndValue(dynamic key, V value) {
+  for (final auxiliaryKeyMap in _auxiliaryKeyMaps) {
+    if (auxiliaryKeyMap.canHandleAuxiliaryKey(key)) {
+      try {
+        final mainKey = auxiliaryKeyMap
+            .generateMainKeyFromAuxiliaryKeyAndValue(key, value);
+        if (checkAuxiliaryKeys) {
+          if (keys.contains(mainKey) || key == mainKey) {
+            throw DynCacheAuxKeyCollisionException(
+                &#39;Main key $mainKey from ${auxiliaryKeyMap.id} using auxiliary key $key and value $value conflicts with the main keys&#39;);
+          }
+          for (final internalAuxiliaryKeyMap in _auxiliaryKeyMaps) {
+            if (internalAuxiliaryKeyMap.containsKey(mainKey)) {
+              throw DynCacheAuxKeyCollisionException(
+                  &#39;Main key $mainKey from ${auxiliaryKeyMap.id} using auxiliary key $key and value $value conflicts with auxiliary key manager ${internalAuxiliaryKeyMap.id}&#39;);
+            }
+          }
+        }
+        return mainKey;
+      } on Exception {
+        continue;
+      }
+    }
+  }
+  throw DynCacheTypeException(&#39;Auxiliary key $key cannot be handled.&#39;);
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">dart_dyncache</a></li>
+  <li><a href="../../dart_dyncache/dart_dyncache-library.html">dart_dyncache</a></li>
+  <li><a href="../../dart_dyncache/DynamicCache-class.html">DynamicCache<span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></a></li>
+  <li class="self-crumb">generateNewMainKeyFromAuxiliaryKeyAndValue method</li>
+</ol>
+
+
+    <h5>DynamicCache class</h5>
+    <ol>
+
+        <li class="section-title"><a href="../../dart_dyncache/DynamicCache-class.html#constructors">Constructors</a></li>
+          <li><a href="../../dart_dyncache/DynamicCache/DynamicCache.html">DynamicCache</a></li>
+
+
+    <li class="section-title">
+      <a href="../../dart_dyncache/DynamicCache-class.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../../dart_dyncache/DynamicCache/cacheCapacity.html">cacheCapacity</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/checkAuxiliaryKeys.html">checkAuxiliaryKeys</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/entries.html">entries</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/entryWeight.html">entryWeight</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/hits.html">hits</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/insertWeight.html">insertWeight</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/keys.html">keys</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/length.html">length</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/lookupWeight.html">lookupWeight</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/misses.html">misses</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/onEvict.html">onEvict</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/updateWeight.html">updateWeight</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/values.html">values</a></li>
+
+    <li class="section-title"><a href="../../dart_dyncache/DynamicCache-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/auxKeysForHandlerAtIndex.html">auxKeysForHandlerAtIndex</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/entriesForHandlerAtIndex.html">entriesForHandlerAtIndex</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/generateNewMainKeyFromAuxiliaryKey.html">generateNewMainKeyFromAuxiliaryKey</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/generateNewMainKeyFromAuxiliaryKeyAndValue.html">generateNewMainKeyFromAuxiliaryKeyAndValue</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/get.html">get</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/getAuxiliaryKeysForMainKeyAndValue.html">getAuxiliaryKeysForMainKeyAndValue</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/getMainKeyFromAuxiliaryKey.html">getMainKeyFromAuxiliaryKey</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/getValueForMainKey.html">getValueForMainKey</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/remove.html">remove</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/removeAuxiliaryKeysForMainKeyAndValue.html">removeAuxiliaryKeysForMainKeyAndValue</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/removeNLightestEntries.html">removeNLightestEntries</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/removeValueForMainKey.html">removeValueForMainKey</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/set.html">set</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/setAuxiliaryKeysForMainKeyAndValue.html">setAuxiliaryKeysForMainKeyAndValue</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/setValueForMainKey.html">setValueForMainKey</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/toString.html">toString</a></li>
+    <li><a href="../../dart_dyncache/DynamicCache/updateValueForMainKey.html">updateValueForMainKey</a></li>
+
+    <li class="section-title inherited"><a href="../../dart_dyncache/DynamicCache-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    dart_dyncache
+      1.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the SimpleDynamicCache class from the dart_dyncache library, for the Dart programming language.">
+  <title>SimpleDynamicCache class - dart_dyncache library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">dart_dyncache</a></li>
+    <li><a href="../dart_dyncache/dart_dyncache-library.html">dart_dyncache</a></li>
+    <li class="self-crumb">SimpleDynamicCache<span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span> class</li>
+  </ol>
+  <div class="self-name">SimpleDynamicCache</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-class">SimpleDynamicCache&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span> class 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>A basic implementation of <a href="../dart_dyncache/BaseDynamicCache-class.html">BaseDynamicCache</a>.</p>
+</section>
+
+
+    <section>
+      <dl class="dl-horizontal">
+        
+  <dt>Inheritance</dt>
+  <dd>
+    <ul class="gt-separated dark clazz-relationships">
+      <li><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object-class.html">Object</a></li>
+        <li><a href="../dart_dyncache/BaseDynamicCache-class.html">BaseDynamicCache</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></li>
+      <li>SimpleDynamicCache</li>
+    </ul>
+  </dd>
+
+        
+        
+
+        <dt>Implementers</dt>
+        <dd><ul class="comma-separated clazz-relationships">
+          <li><a href="../dart_dyncache/FIFODynamicCache-class.html">FIFODynamicCache</a></li>
+          <li><a href="../dart_dyncache/LFUDynamicCache-class.html">LFUDynamicCache</a></li>
+          <li><a href="../dart_dyncache/LRUDynamicCache-class.html">LRUDynamicCache</a></li>
+        </ul></dd>
+
+
+        
+      </dl>
+    </section>
+
+    
+  <section class="summary offset-anchor" id="constructors">
+    <h2>Constructors</h2>
+
+    <dl class="constructor-summary-list">
+        <dt id="SimpleDynamicCache" class="callable">
+          <span class="name"><a href="../dart_dyncache/SimpleDynamicCache/SimpleDynamicCache.html">SimpleDynamicCache</a></span><span class="signature">(<span class="parameter" id="-param-cacheCapacity"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> <span class="parameter-name">cacheCapacity</span>, </span><span class="parameter" id="-param-entryWeight">{<span>required</span> <span class="type-annotation"><a href="../dart_dyncache/CacheWeightFunction.html">CacheWeightFunction</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></span> <span class="parameter-name">entryWeight</span>, </span><span class="parameter" id="-param-onEvict"><span class="type-annotation"><a href="../dart_dyncache/OnEvictFunction.html">OnEvictFunction</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span>?</span> <span class="parameter-name">onEvict</span>, </span><span class="parameter" id="-param-insertWeight"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/double-class.html">double</a></span> <span class="parameter-name">insertWeight</span> = <span class="default-value">0</span>, </span><span class="parameter" id="-param-updateWeight"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/double-class.html">double</a></span> <span class="parameter-name">updateWeight</span> = <span class="default-value">0</span>, </span><span class="parameter" id="-param-lookupWeight"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/double-class.html">double</a></span> <span class="parameter-name">lookupWeight</span> = <span class="default-value">1</span>, </span><span class="parameter" id="-param-storageGenerator"><span>required</span> <span class="type-annotation"><a href="../dart_dyncache/OrderedStorage-class.html">OrderedStorage</a><span class="signature">&lt;<wbr><span class="type-parameter">K1</span>, <span class="type-parameter">V1</span>&gt;</span></span> <span class="parameter-name">storageGenerator</span>(<span class="parameter" id="param-"><span class="type-annotation"><a href="../dart_dyncache/StorageWeightFunction.html">StorageWeightFunction</a><span class="signature">&lt;<wbr><span class="type-parameter">K1</span>, <span class="type-parameter">V1</span>&gt;</span></span> <span class="parameter-name"></span></span>), </span><span class="parameter" id="-param-checkAuxiliaryKeys"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">checkAuxiliaryKeys</span> = <span class="default-value">true</span>, </span><span class="parameter" id="-param-auxiliaryKeyManagers"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a><span class="signature">&lt;<wbr><span class="type-parameter">dynamic</span>, <span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></span>&gt;</span>?</span> <span class="parameter-name">auxiliaryKeyManagers</span>}</span>)</span>
+        </dt>
+        <dd>
+          
+        </dd>
+    </dl>
+  </section>
+
+    <section class="summary offset-anchor inherited" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="cacheCapacity" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/cacheCapacity.html">cacheCapacity</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The maximum number of entries in the cache.
+  <div class="features">final, inherited</div>
+
+</dd>
+
+        <dt id="checkAuxiliaryKeys" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/checkAuxiliaryKeys.html">checkAuxiliaryKeys</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/bool-class.html">bool</a></span> 
+
+</dt>
+<dd class="inherited">
+  If <code>true</code>, throws <a href="../dart_dyncache/DynCacheAuxKeyCollisionException-class.html">DynCacheAuxKeyCollisionException</a> if a key generated
+by a <a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a> is already in the main key set or another
+<a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a>.
+  <div class="features">final, inherited</div>
+
+</dd>
+
+        <dt id="entries" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/entries.html">entries</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.18.6/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></span>&gt;</span></span> 
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="entryWeight" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/entryWeight.html">entryWeight</a></span>
+  <span class="signature">&#8594; <a href="../dart_dyncache/CacheWeightFunction.html">CacheWeightFunction</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span></span> 
+
+</dt>
+<dd class="inherited">
+  Calculates the total weight of an entry.
+  <div class="features">final, inherited</div>
+
+</dd>
+
+        <dt id="hashCode" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/hashCode.html">hashCode</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  The hash code for this object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="hits" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/hits.html">hits</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  Incremented when <a href="../dart_dyncache/SimpleDynamicCache/get.html">get</a> successfully returns a value.
+  <div class="features">read / write, inherited</div>
+
+</dd>
+
+        <dt id="insertWeight" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/insertWeight.html">insertWeight</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/2.18.6/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  The <code>accessWeight</code> of a entry is set to this value when first inserted
+with <a href="../dart_dyncache/SimpleDynamicCache/set.html">set</a>.
+  <div class="features">read / write, inherited</div>
+
+</dd>
+
+        <dt id="keys" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/keys.html">keys</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>&gt;</span></span> 
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="length" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/length.html">length</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="lookupWeight" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/lookupWeight.html">lookupWeight</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/2.18.6/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  The <code>accessWeight</code> of an entry is increased by this amount when it is
+hit by a <a href="../dart_dyncache/SimpleDynamicCache/get.html">get</a>.
+  <div class="features">read / write, inherited</div>
+
+</dd>
+
+        <dt id="misses" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/misses.html">misses</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> 
+
+</dt>
+<dd class="inherited">
+  Incremented when <a href="../dart_dyncache/SimpleDynamicCache/get.html">get</a> returns null.
+  <div class="features">read / write, inherited</div>
+
+</dd>
+
+        <dt id="onEvict" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/onEvict.html">onEvict</a></span>
+  <span class="signature">&#8594; <a href="../dart_dyncache/OnEvictFunction.html">OnEvictFunction</a><span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span>?</span> 
+
+</dt>
+<dd class="inherited">
+  Called when an entry is removed from eviction or <a href="../dart_dyncache/SimpleDynamicCache/remove.html">remove</a>.
+  <div class="features">final, inherited</div>
+
+</dd>
+
+        <dt id="runtimeType" class="property inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/runtimeType.html">runtimeType</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Type-class.html">Type</a></span> 
+
+</dt>
+<dd class="inherited">
+  A representation of the runtime type of the object.
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+        <dt id="updateWeight" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/updateWeight.html">updateWeight</a></span>
+  <span class="signature">&#8596; <a href="https://api.dart.dev/stable/2.18.6/dart-core/double-class.html">double</a></span> 
+
+</dt>
+<dd class="inherited">
+  The <code>accessWeight</code> of an entry is increased by this amount when its value
+is updated with <a href="../dart_dyncache/SimpleDynamicCache/set.html">set</a>.
+  <div class="features">read / write, inherited</div>
+
+</dd>
+
+        <dt id="values" class="property inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/values.html">values</a></span>
+  <span class="signature">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter">V</span>&gt;</span></span> 
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">read-only, inherited</div>
+
+</dd>
+
+      </dl>
+    </section>
+
+    
+  <section
+      class="summary offset-anchor"
+      id="instance-methods">
+    <h2>Methods</h2>
+    <dl class="callables">
+        <dt id="auxKeysForHandlerAtIndex" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/auxKeysForHandlerAtIndex.html">auxKeysForHandlerAtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="auxKeysForHandlerAtIndex-param-index"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> <span class="parameter-name">index</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="entriesForHandlerAtIndex" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/entriesForHandlerAtIndex.html">entriesForHandlerAtIndex</a></span><span class="signature">(<wbr><span class="parameter" id="entriesForHandlerAtIndex-param-index"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> <span class="parameter-name">index</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/2.18.6/dart-core/MapEntry-class.html">MapEntry</a><span class="signature">&lt;<wbr><span class="type-parameter">dynamic</span>, <span class="type-parameter">V</span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="generateNewMainKeyFromAuxiliaryKey" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/generateNewMainKeyFromAuxiliaryKey.html">generateNewMainKeyFromAuxiliaryKey</a></span><span class="signature">(<wbr><span class="parameter" id="generateNewMainKeyFromAuxiliaryKey-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span></span>)
+    <span class="returntype parameter">&#8594; K?</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given some auxiliary key and value, generate the associated main key.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="generateNewMainKeyFromAuxiliaryKeyAndValue" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/generateNewMainKeyFromAuxiliaryKeyAndValue.html">generateNewMainKeyFromAuxiliaryKeyAndValue</a></span><span class="signature">(<wbr><span class="parameter" id="generateNewMainKeyFromAuxiliaryKeyAndValue-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="generateNewMainKeyFromAuxiliaryKeyAndValue-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; K</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given some auxiliary key and value, generate the associated main key.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="get" class="callable">
+  <span class="name"><a href="../dart_dyncache/SimpleDynamicCache/get.html">get</a></span><span class="signature">(<wbr><span class="parameter" id="get-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="get-param-throwOnUnsafe">{<span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">throwOnUnsafe</span> = <span class="default-value">true</span>}</span>)
+    <span class="returntype parameter">&#8594; V?</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Get the value associated with <code>key</code>.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="getAuxiliaryKeysForMainKeyAndValue" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/getAuxiliaryKeysForMainKeyAndValue.html">getAuxiliaryKeysForMainKeyAndValue</a></span><span class="signature">(<wbr><span class="parameter" id="getAuxiliaryKeysForMainKeyAndValue-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="getAuxiliaryKeysForMainKeyAndValue-param-value"><span class="type-annotation">V?</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/Iterable-class.html">Iterable</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given a main key-value pair, get associated auxiliary keys from valid
+<a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a>s
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getMainKeyFromAuxiliaryKey" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/getMainKeyFromAuxiliaryKey.html">getMainKeyFromAuxiliaryKey</a></span><span class="signature">(<wbr><span class="parameter" id="getMainKeyFromAuxiliaryKey-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="getMainKeyFromAuxiliaryKey-param-throwOnBadType"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">throwOnBadType</span></span>)
+    <span class="returntype parameter">&#8594; K?</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given some auxiliary key, return the main key of the first mapping if
+it exists.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="getValueForMainKey" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/getValueForMainKey.html">getValueForMainKey</a></span><span class="signature">(<wbr><span class="parameter" id="getValueForMainKey-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span></span>)
+    <span class="returntype parameter">&#8594; V?</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="noSuchMethod" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Invoked when a non-existent method or property is accessed.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="remove" class="callable">
+  <span class="name"><a href="../dart_dyncache/SimpleDynamicCache/remove.html">remove</a></span><span class="signature">(<wbr><span class="parameter" id="remove-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span></span>)
+    <span class="returntype parameter">&#8594; V?</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Removes the key-value pair associated with <code>key</code> from the cache and
+returns the associated value.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="removeAuxiliaryKeysForMainKeyAndValue" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/removeAuxiliaryKeysForMainKeyAndValue.html">removeAuxiliaryKeysForMainKeyAndValue</a></span><span class="signature">(<wbr><span class="parameter" id="removeAuxiliaryKeysForMainKeyAndValue-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="removeAuxiliaryKeysForMainKeyAndValue-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given a main key-value pair, remove associated
+keys from all <a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a>
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="removeNLightestEntries" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/removeNLightestEntries.html">removeNLightestEntries</a></span><span class="signature">(<wbr><span class="parameter" id="removeNLightestEntries-param-n"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/int-class.html">int</a></span> <span class="parameter-name">n</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="removeValueForMainKey" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/removeValueForMainKey.html">removeValueForMainKey</a></span><span class="signature">(<wbr><span class="parameter" id="removeValueForMainKey-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span></span>)
+    <span class="returntype parameter">&#8594; V?</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given a main key, remove and return the value if exists.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="set" class="callable">
+  <span class="name"><a href="../dart_dyncache/SimpleDynamicCache/set.html">set</a></span><span class="signature">(<wbr><span class="parameter" id="set-param-key"><span class="type-annotation">dynamic</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="set-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  Associate <code>key</code> with <code>value</code> in the cache.
+  <div class="features">override</div>
+
+</dd>
+
+        <dt id="setAuxiliaryKeysForMainKeyAndValue" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/setAuxiliaryKeysForMainKeyAndValue.html">setAuxiliaryKeysForMainKeyAndValue</a></span><span class="signature">(<wbr><span class="parameter" id="setAuxiliaryKeysForMainKeyAndValue-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="setAuxiliaryKeysForMainKeyAndValue-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  Given a main key-value pair, generate keys for all <a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a>
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="setValueForMainKey" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/setValueForMainKey.html">setValueForMainKey</a></span><span class="signature">(<wbr><span class="parameter" id="setValueForMainKey-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="setValueForMainKey-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  throws <a href="../dart_dyncache/DynCacheAuxKeyCollisionException-class.html">DynCacheAuxKeyCollisionException</a> if <a href="../dart_dyncache/BaseDynamicCache/checkAuxiliaryKeys.html">checkAuxiliaryKeys</a> is <code>true</code>
+and <code>key</code> already exists in an <a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a>.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="toString" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  A string representation of this object.
+  <div class="features">inherited</div>
+
+</dd>
+
+        <dt id="updateValueForMainKey" class="callable inherited">
+  <span class="name"><a href="../dart_dyncache/BaseDynamicCache/updateValueForMainKey.html">updateValueForMainKey</a></span><span class="signature">(<wbr><span class="parameter" id="updateValueForMainKey-param-key"><span class="type-annotation">K</span> <span class="parameter-name">key</span>, </span><span class="parameter" id="updateValueForMainKey-param-value"><span class="type-annotation">V</span> <span class="parameter-name">value</span></span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  
+  <div class="features">inherited</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+  <section
+      class="summary offset-anchor inherited"
+      id="operators">
+    <h2>Operators</h2>
+    <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+  <span class="name"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object-class.html">Object</a></span> <span class="parameter-name">other</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/2.18.6/dart-core/bool-class.html">bool</a></span>
+  </span>
+  
+
+</dt>
+<dd class="inherited">
+  The equality operator.
+  <div class="features">inherited</div>
+
+</dd>
+
+    </dl>
+  </section>
+    
+    
+    
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">dart_dyncache</a></li>
+  <li><a href="../dart_dyncache/dart_dyncache-library.html">dart_dyncache</a></li>
+  <li class="self-crumb">SimpleDynamicCache<span class="signature">&lt;<wbr><span class="type-parameter">K</span>, <span class="type-parameter">V</span>&gt;</span> class</li>
+</ol>
+
+
+    <h5>dart_dyncache library</h5>
+    <ol>
+  <li class="section-title"><a href="../dart_dyncache/dart_dyncache-library.html#classes">Classes</a></li>
+  <li><a href="../dart_dyncache/AsyncBasicDynamicCache-class.html">AsyncBasicDynamicCache</a></li>
+  <li><a href="../dart_dyncache/AuxiliaryKeyManager-class.html">AuxiliaryKeyManager</a></li>
+  <li><a href="../dart_dyncache/BaseDynamicCache-class.html">BaseDynamicCache</a></li>
+  <li><a href="../dart_dyncache/DynamicCache-class.html">DynamicCache</a></li>
+  <li><a href="../dart_dyncache/FIFODynamicCache-class.html">FIFODynamicCache</a></li>
+  <li><a href="../dart_dyncache/LFUDynamicCache-class.html">LFUDynamicCache</a></li>
+  <li><a href="../dart_dyncache/LRUDynamicCache-class.html">LRUDynamicCache</a></li>
+  <li><a href="../dart_dyncache/OrderedMap-class.html">OrderedMap</a></li>
+  <li><a href="../dart_dyncache/OrderedStorage-class.html">OrderedStorage</a></li>
+  <li><a href="../dart_dyncache/SimpleDynamicCache-class.html">SimpleDynamicCache</a></li>
+
+
+
+
+
+
+
+  <li class="section-title"><a href="../dart_dyncache/dart_dyncache-library.html#typedefs">Typedefs</a></li>
+  <li><a href="../dart_dyncache/CacheWeightFunction.html">CacheWeightFunction</a></li>
+  <li><a href="../dart_dyncache/OnEvictFunction.html">OnEvictFunction</a></li>
+  <li><a href="../dart_dyncache/StorageWeightFunction.html">StorageWeightFunction</a></li>
+
+  <li class="section-title"><a href="../dart_dyncache/dart_dyncache-library.html#exceptions">Exceptions</a></li>
+  <li><a href="../dart_dyncache/DynCacheAuxKeyCollisionException-class.html">DynCacheAuxKeyCollisionException</a></li>
+  <li><a href="../dart_dyncache/DynCacheException-class.html">DynCacheException</a></li>
+  <li><a href="../dart_dyncache/DynCacheTypeException-class.html">DynCacheTypeException</a></li>
+  <li><a href="../dart_dyncache/DynCacheUnsafeException-class.html">DynCacheUnsafeException</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <ol>
+
+        <li class="section-title"><a href="../dart_dyncache/SimpleDynamicCache-class.html#constructors">Constructors</a></li>
+          <li><a href="../dart_dyncache/SimpleDynamicCache/SimpleDynamicCache.html">SimpleDynamicCache</a></li>
+
+
+    <li class="section-title inherited">
+      <a href="../dart_dyncache/SimpleDynamicCache-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/cacheCapacity.html">cacheCapacity</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/checkAuxiliaryKeys.html">checkAuxiliaryKeys</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/entries.html">entries</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/entryWeight.html">entryWeight</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/hits.html">hits</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/insertWeight.html">insertWeight</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/keys.html">keys</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/length.html">length</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/lookupWeight.html">lookupWeight</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/misses.html">misses</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/onEvict.html">onEvict</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/runtimeType.html">runtimeType</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/updateWeight.html">updateWeight</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/values.html">values</a></li>
+
+    <li class="section-title"><a href="../dart_dyncache/SimpleDynamicCache-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/auxKeysForHandlerAtIndex.html">auxKeysForHandlerAtIndex</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/entriesForHandlerAtIndex.html">entriesForHandlerAtIndex</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/generateNewMainKeyFromAuxiliaryKey.html">generateNewMainKeyFromAuxiliaryKey</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/generateNewMainKeyFromAuxiliaryKeyAndValue.html">generateNewMainKeyFromAuxiliaryKeyAndValue</a></li>
+    <li><a href="../dart_dyncache/SimpleDynamicCache/get.html">get</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/getAuxiliaryKeysForMainKeyAndValue.html">getAuxiliaryKeysForMainKeyAndValue</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/getMainKeyFromAuxiliaryKey.html">getMainKeyFromAuxiliaryKey</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/getValueForMainKey.html">getValueForMainKey</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li><a href="../dart_dyncache/SimpleDynamicCache/remove.html">remove</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/removeAuxiliaryKeysForMainKeyAndValue.html">removeAuxiliaryKeysForMainKeyAndValue</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/removeNLightestEntries.html">removeNLightestEntries</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/removeValueForMainKey.html">removeValueForMainKey</a></li>
+    <li><a href="../dart_dyncache/SimpleDynamicCache/set.html">set</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/setAuxiliaryKeysForMainKeyAndValue.html">setAuxiliaryKeysForMainKeyAndValue</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/setValueForMainKey.html">setValueForMainKey</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/toString.html">toString</a></li>
+    <li class="inherited"><a href="../dart_dyncache/BaseDynamicCache/updateValueForMainKey.html">updateValueForMainKey</a></li>
+
+    <li class="section-title inherited"><a href="../dart_dyncache/SimpleDynamicCache-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.dart.dev/stable/2.18.6/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    dart_dyncache
+      1.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
