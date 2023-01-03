@@ -66,6 +66,7 @@ until that future is completed.</p>
 is <code>true</code>, or if <a href="../../dart_dyncache/AsyncBasicDynamicCache/setAsync.html">setAsync</a> was called with an auxiliary <code>key</code> who's associated
 <a href="../../dart_dyncache/AuxiliaryKeyManager/valueNeeded.html">AuxiliaryKeyManager.valueNeeded</a> is <code>true</code> this method will miss even
 if the future is known.</p>
+<p>If <a href="../../dart_dyncache/AsyncBasicDynamicCache/setAsync.html">setAsync</a> is called after <a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a>, the new future will not be awaited.</p>
 </section>
 
 
@@ -73,10 +74,12 @@ if the future is known.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;V?&gt; getAsync(dynamic key) async {
+  V? futureValue;
   if (_waitingOnMap.containsKey(key)) {
-    await _waitingOnMap[key];
+    final results = await Future.wait(_waitingOnMap[key]!);
+    futureValue ??= results.last;
   }
-  return get(key, throwOnUnsafe: false);
+  return get(key, throwOnUnsafe: false) ?? futureValue;
 }</code></pre>
 </section>
 
@@ -123,6 +126,7 @@ if the future is known.</p>
     <li class="section-title"><a href="../../dart_dyncache/AsyncBasicDynamicCache-class.html#instance-methods">Methods</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/awaitAllCurrentFutureValues.html">awaitAllCurrentFutureValues</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/clear.html">clear</a></li>
+    <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/containsKey.html">containsKey</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/doesKeyHaveAssociatedFuture.html">doesKeyHaveAssociatedFuture</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/get.html">get</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a></li>

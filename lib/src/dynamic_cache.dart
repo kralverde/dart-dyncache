@@ -89,6 +89,7 @@ abstract class DynamicCache<K, V> {
   void set(dynamic key, V value);
   V? remove(dynamic key);
   void clear();
+  bool containsKey(dynamic key);
 
   abstract int hits;
   abstract int misses;
@@ -395,6 +396,17 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
   @override
   Iterable<MapEntry<K, V>> get entries =>
       _internalStorage.entries.map((e) => MapEntry(e.key, e.value._value));
+
+  @override
+  bool containsKey(dynamic key) {
+    if (_internalStorage.containsKey(key)) {
+      return true;
+    }
+    if (getMainKeyFromAuxiliaryKey(key, false) != null) {
+      return true;
+    }
+    return false;
+  }
 
   Iterable<dynamic> auxKeysForHandlerAtIndex(int index) sync* {
     yield* _auxiliaryKeyMaps[index].keys;

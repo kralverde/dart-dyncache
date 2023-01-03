@@ -77,42 +77,42 @@ the associated <a href="../../dart_dyncache/AuxiliaryKeyManager/valueNeeded.html
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void setAsync(dynamic key, Future&lt;V&gt; value) {
-  final completer = Completer&lt;void&gt;();
+  final completer = Completer&lt;V&gt;();
   if (keys.contains(key)) {
-    _waitingOnMap[key] = completer.future;
+    _futureSetForKey(key).add(completer.future);
     final auxKeys =
         _wrappedCache.getAuxiliaryKeysForMainKeyAndValue(key, null);
     for (final auxKey in auxKeys) {
-      _waitingOnMap[auxKey] = completer.future;
+      _futureSetForKey(auxKey).add(completer.future);
     }
     _waitingOnCount++;
     value.then((value) {
       set(key, value);
-      _waitingOnMap.remove(key);
+      _removeFutureForKey(key, completer.future);
       for (final auxKey in auxKeys) {
-        _waitingOnMap.remove(auxKey);
+        _removeFutureForKey(auxKey, completer.future);
       }
-      completer.complete();
+      completer.complete(value);
       _waitingOnCount--;
     });
     return;
   }
   final mainKey = _wrappedCache.getMainKeyFromAuxiliaryKey(key, true);
   if (mainKey != null) {
-    _waitingOnMap[mainKey] = completer.future;
+    _futureSetForKey(mainKey).add(completer.future);
     final auxKeys =
         _wrappedCache.getAuxiliaryKeysForMainKeyAndValue(mainKey, null);
     for (final auxKey in auxKeys) {
-      _waitingOnMap[auxKey] = completer.future;
+      _futureSetForKey(auxKey).add(completer.future);
     }
     _waitingOnCount++;
     value.then((value) {
       set(mainKey, value);
-      _waitingOnMap.remove(mainKey);
+      _removeFutureForKey(mainKey, completer.future);
       for (final auxKey in auxKeys) {
-        _waitingOnMap.remove(auxKey);
+        _removeFutureForKey(auxKey, completer.future);
       }
-      completer.complete();
+      completer.complete(value);
       _waitingOnCount--;
     });
     return;
@@ -120,24 +120,24 @@ the associated <a href="../../dart_dyncache/AuxiliaryKeyManager/valueNeeded.html
 
   &#47;&#47; New insertion
   if (key is K) {
-    _waitingOnMap[key] = completer.future;
+    _futureSetForKey(key).add(completer.future);
     final auxKeys =
         _wrappedCache.getAuxiliaryKeysForMainKeyAndValue(key, null);
     for (final auxKey in auxKeys) {
-      _waitingOnMap[auxKey] = completer.future;
+      _futureSetForKey(auxKey).add(completer.future);
     }
     _waitingOnCount++;
     value.then((value) {
       set(key, value);
-      _waitingOnMap.remove(key);
+      _removeFutureForKey(key, completer.future);
       for (final auxKey in auxKeys) {
-        _waitingOnMap.remove(auxKey);
+        _removeFutureForKey(auxKey, completer.future);
       }
-      completer.complete();
+      completer.complete(value);
       _waitingOnCount--;
     });
   } else {
-    _waitingOnMap[key] = completer.future;
+    _futureSetForKey(key).add(completer.future);
     final otherKeys = &lt;dynamic&gt;{};
     final maybeMainKey =
         _wrappedCache.generateNewMainKeyFromAuxiliaryKey(key);
@@ -146,16 +146,19 @@ the associated <a href="../../dart_dyncache/AuxiliaryKeyManager/valueNeeded.html
       otherKeys.addAll(_wrappedCache.getAuxiliaryKeysForMainKeyAndValue(
           maybeMainKey, null));
     }
+    for (final key in otherKeys) {
+      _futureSetForKey(key).add(completer.future);
+    }
     _waitingOnCount++;
     value.then((value) {
       final mainKey = _wrappedCache
           .generateNewMainKeyFromAuxiliaryKeyAndValue(key, value);
       set(mainKey, value);
-      _waitingOnMap.remove(key);
+      _removeFutureForKey(key, completer.future);
       for (final key in otherKeys) {
-        _waitingOnMap.remove(key);
+        _removeFutureForKey(key, completer.future);
       }
-      completer.complete();
+      completer.complete(value);
       _waitingOnCount--;
     });
   }
@@ -205,6 +208,7 @@ the associated <a href="../../dart_dyncache/AuxiliaryKeyManager/valueNeeded.html
     <li class="section-title"><a href="../../dart_dyncache/AsyncBasicDynamicCache-class.html#instance-methods">Methods</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/awaitAllCurrentFutureValues.html">awaitAllCurrentFutureValues</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/clear.html">clear</a></li>
+    <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/containsKey.html">containsKey</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/doesKeyHaveAssociatedFuture.html">doesKeyHaveAssociatedFuture</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/get.html">get</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a></li>

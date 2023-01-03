@@ -1,10 +1,10 @@
 name: dart_dyncache
 description: an attempt a dynamic and flexible library for all caching needs
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/kralverde/dart-dyncache
 
 environment:
-  sdk: '>=2.18.6 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 # dependencies:
 #   path: ^1.8.0

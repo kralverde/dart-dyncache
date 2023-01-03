@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dart_dyncache/dart_dyncache.dart';
 import 'package:test/test.dart';
@@ -456,6 +457,8 @@ void main() {
 
       expect(await cache.getAsync(99), 99);
       expect(await cache.getAsync(91), 91);
+      expect(cache.doesKeyHaveAssociatedFuture(99), false);
+      expect(cache.doesKeyHaveAssociatedFuture(91), false);
     });
     test('get future with aux keys', () async {
       final manager = AuxiliaryKeyManager<String, int, int>(

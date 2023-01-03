@@ -64,13 +64,22 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>If a value exists in the cache for <code>key</code>, returns that value.</p>
+<p>Removes associated futures with <code>key</code> as soon as then complete.</p>
+</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-V? remove(dynamic key) =&gt; _wrappedCache.remove(key);</code></pre>
+V? remove(dynamic key) {
+  _waitingOnMap[key]?.forEach((element) {
+    element.then((value) =&gt; _wrappedCache.remove(key));
+  });
+  return _wrappedCache.remove(key);
+}</code></pre>
 </section>
 
 
@@ -116,6 +125,7 @@ V? remove(dynamic key) =&gt; _wrappedCache.remove(key);</code></pre>
     <li class="section-title"><a href="../../dart_dyncache/AsyncBasicDynamicCache-class.html#instance-methods">Methods</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/awaitAllCurrentFutureValues.html">awaitAllCurrentFutureValues</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/clear.html">clear</a></li>
+    <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/containsKey.html">containsKey</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/doesKeyHaveAssociatedFuture.html">doesKeyHaveAssociatedFuture</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/get.html">get</a></li>
     <li><a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a></li>
