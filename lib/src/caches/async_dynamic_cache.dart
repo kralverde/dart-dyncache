@@ -81,6 +81,9 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
   }
 
   @override
+  void clear() => _wrappedCache.clear();
+
+  @override
   void set(dynamic key, V value) => _wrappedCache.set(key, value);
 
   @override

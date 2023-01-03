@@ -88,6 +88,7 @@ abstract class DynamicCache<K, V> {
   V? get(dynamic key);
   void set(dynamic key, V value);
   V? remove(dynamic key);
+  void clear();
 
   abstract int hits;
   abstract int misses;
@@ -378,6 +379,11 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
     }
     if (!validKey) throw DynCacheTypeException('key $key cannot be handled.');
     return null;
+  }
+
+  @override
+  void clear() {
+    _internalStorage.clear();
   }
 
   @override
