@@ -67,7 +67,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; awaitAllCurrentFutureValues() async {
-  await Future.wait(_waitingOnMap.values.expand((element) =&gt; element));
+  await Future.wait(_waitingForMap.values.expand((element) =&gt; element));
 }</code></pre>
 </section>
 
@@ -142,7 +142,7 @@
 <footer>
   <span class="no-break">
     dart_dyncache
-      1.0.1
+      1.0.3
   </span>
 
   

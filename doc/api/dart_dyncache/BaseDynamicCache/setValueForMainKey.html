@@ -74,7 +74,7 @@ and <code>key</code> already exists in an <a href="../../dart_dyncache/Auxiliary
     for (final auxiliaryKeyMap in _auxiliaryKeyMaps) {
       if (auxiliaryKeyMap.containsKey(key)) {
         throw DynCacheAuxKeyCollisionException(
-            &#39;Main key $key conflicts with auxiliary key generator ${auxiliaryKeyMap.id}&#39;);
+            &#39;Main key ($key) conflicts with auxiliary key generator (${auxiliaryKeyMap.id})&#39;);
       }
     }
   }
@@ -168,7 +168,7 @@ and <code>key</code> already exists in an <a href="../../dart_dyncache/Auxiliary
 <footer>
   <span class="no-break">
     dart_dyncache
-      1.0.1
+      1.0.3
   </span>
 
   

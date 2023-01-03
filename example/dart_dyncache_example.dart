@@ -138,7 +138,42 @@ void main() async {
   }
   // And unparsable keys.
   try {
-    lruCache.set('(not a int)', 'bad parse');
+    lruCache.set('not a int', 'bad parse');
+  } catch (e) {
+    print(e);
+  }
+
+  // By default, auxiliary key conflicts will throw errors, but if your methods
+  // are sound, you may want to set `checkAuxiliaryKeys` to `false` to avoid
+  // extraneous computations
+
+  final badManager1 = AuxiliaryKeyManager<int, int, String>(
+      generateAuxiliaryKeyFromMainKeyAndValue: (mainKey, value) => mainKey,
+      generateMainKeyFromAuxiliaryKeyAndValue: (auxiliaryKey, value) =>
+          auxiliaryKey,
+      id: 'aux keys and main keys are the same set');
+  final badManager2 = AuxiliaryKeyManager<String, int, String>(
+      generateAuxiliaryKeyFromMainKeyAndValue: (mainKey, value) => '$mainKey',
+      generateMainKeyFromAuxiliaryKeyAndValue: (k, v) => int.parse(k),
+      id: 'int to string 1');
+  final badManager3 = AuxiliaryKeyManager<String, int, String>(
+      generateAuxiliaryKeyFromMainKeyAndValue: (mainKey, value) => '$mainKey',
+      generateMainKeyFromAuxiliaryKeyAndValue: (k, v) => int.parse(k),
+      id: 'int to string 2');
+  final badCache1 = LRUDynamicCache(10,
+      storageGenerator: <K, V>(e) => OrderedMap(entryWeight: e),
+      auxiliaryKeyManagers: [badManager1]);
+  final badCache2 = LRUDynamicCache(10,
+      storageGenerator: <K, V>(e) => OrderedMap(entryWeight: e),
+      auxiliaryKeyManagers: [badManager2, badManager3]);
+
+  try {
+    badCache1.set(1, 'aux conflicts with main');
+  } catch (e) {
+    print(e);
+  }
+  try {
+    badCache2.set('1', 'aux conflicts with aux');
   } catch (e) {
     print(e);
   }

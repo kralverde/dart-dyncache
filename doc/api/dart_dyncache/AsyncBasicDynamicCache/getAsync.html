@@ -66,7 +66,8 @@ until that future is completed.</p>
 is <code>true</code>, or if <a href="../../dart_dyncache/AsyncBasicDynamicCache/setAsync.html">setAsync</a> was called with an auxiliary <code>key</code> who's associated
 <a href="../../dart_dyncache/AuxiliaryKeyManager/valueNeeded.html">AuxiliaryKeyManager.valueNeeded</a> is <code>true</code> this method will miss even
 if the future is known.</p>
-<p>If <a href="../../dart_dyncache/AsyncBasicDynamicCache/setAsync.html">setAsync</a> is called after <a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a>, the new future will not be awaited.</p>
+<p>If <a href="../../dart_dyncache/AsyncBasicDynamicCache/setAsync.html">setAsync</a> is called for <code>key</code> while <a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a> is waiting, it will not be
+caught by the waiting <a href="../../dart_dyncache/AsyncBasicDynamicCache/getAsync.html">getAsync</a></p>
 </section>
 
 
@@ -75,10 +76,16 @@ if the future is known.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;V?&gt; getAsync(dynamic key) async {
   V? futureValue;
-  if (_waitingOnMap.containsKey(key)) {
-    final results = await Future.wait(_waitingOnMap[key]!);
-    futureValue ??= results.last;
+  if (_waitingForMap.containsKey(key)) {
+    final futures = &lt;Future&lt;void&gt;&gt;[];
+    for (final future in _waitingForMap[key]!) {
+      futures.add(future.then((value) =&gt; futureValue = value));
+    }
+    await Future.wait(futures);
   }
+  &#47;&#47; Incase this element is removed in between the future completion and the
+  &#47;&#47; get; the future we are awaiting is the internal completer, not the
+  &#47;&#47; actual passed in future.
   return get(key, throwOnUnsafe: false) ?? futureValue;
 }</code></pre>
 </section>
@@ -154,7 +161,7 @@ if the future is known.</p>
 <footer>
   <span class="no-break">
     dart_dyncache
-      1.0.1
+      1.0.3
   </span>
 
   

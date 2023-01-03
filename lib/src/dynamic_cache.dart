@@ -215,7 +215,7 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
     }
     if (throwOnBadType && !validKey && key is! K) {
       throw DynCacheTypeException(
-          'key $key (${key.runtimeType}) cannot be handled.');
+          'key ($key) (${key.runtimeType}) cannot be handled.');
     }
     return mainKey;
   }
@@ -236,7 +236,7 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
       for (final auxiliaryKeyMap in _auxiliaryKeyMaps) {
         if (auxiliaryKeyMap.containsKey(key)) {
           throw DynCacheAuxKeyCollisionException(
-              'Main key $key conflicts with auxiliary key generator ${auxiliaryKeyMap.id}');
+              'Main key ($key) conflicts with auxiliary key generator (${auxiliaryKeyMap.id})');
         }
       }
     }
@@ -284,12 +284,12 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
       if (checkAuxiliaryKeys) {
         if (keys.contains(auxiliaryKey) || key == auxiliaryKey) {
           throw DynCacheAuxKeyCollisionException(
-              'Auxiliary key $auxiliaryKey from ${auxiliaryKeyMap.id} using main key $key and value $value conflicts with the main keys');
+              'Auxiliary key ($auxiliaryKey) from auxiliary key manager (${auxiliaryKeyMap.id}) using main key ($key) and value ($value) conflicts with the main keys');
         }
         for (final internalAuxiliaryKeyMap in _auxiliaryKeyMaps) {
           if (internalAuxiliaryKeyMap.containsKey(auxiliaryKey)) {
             throw DynCacheAuxKeyCollisionException(
-                'Auxiliary key $auxiliaryKey from ${auxiliaryKeyMap.id} using main key $key and value $value conflicts with auxiliary key manager ${internalAuxiliaryKeyMap.id}');
+                'Auxiliary key ($auxiliaryKey) from auxiliary key manager (${auxiliaryKeyMap.id}) using main key ($key) and value ($value) conflicts with auxiliary key manager (${internalAuxiliaryKeyMap.id})');
           }
         }
       }
@@ -336,12 +336,12 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
           if (checkAuxiliaryKeys) {
             if (keys.contains(mainKey) || key == mainKey) {
               throw DynCacheAuxKeyCollisionException(
-                  'Main key $mainKey from ${auxiliaryKeyMap.id} using auxiliary key $key and value $value conflicts with the main keys');
+                  'Main key ($mainKey) from auxiliary key manager (${auxiliaryKeyMap.id}) using auxiliary key ($key) and value ($value) conflicts with the main keys');
             }
             for (final internalAuxiliaryKeyMap in _auxiliaryKeyMaps) {
               if (internalAuxiliaryKeyMap.containsKey(mainKey)) {
                 throw DynCacheAuxKeyCollisionException(
-                    'Main key $mainKey from ${auxiliaryKeyMap.id} using auxiliary key $key and value $value conflicts with auxiliary key manager ${internalAuxiliaryKeyMap.id}');
+                    'Main key ($mainKey) from auxiliary key manager (${auxiliaryKeyMap.id}) using auxiliary key ($key) and value ($value) conflicts with auxiliary key manager (${internalAuxiliaryKeyMap.id})');
               }
             }
           }
@@ -351,7 +351,7 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
         }
       }
     }
-    throw DynCacheTypeException('Auxiliary key $key cannot be handled.');
+    throw DynCacheTypeException('Auxiliary key ($key) cannot be handled.');
   }
 
   /// Given some auxiliary key and value, generate the associated main key.
@@ -378,7 +378,7 @@ abstract class BaseDynamicCache<K, V> implements DynamicCache<K, V> {
         }
       }
     }
-    if (!validKey) throw DynCacheTypeException('key $key cannot be handled.');
+    if (!validKey) throw DynCacheTypeException('key ($key) cannot be handled.');
     return null;
   }
 

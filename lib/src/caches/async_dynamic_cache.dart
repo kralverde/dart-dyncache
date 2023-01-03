@@ -4,7 +4,8 @@ part of dart_dyncache;
 /// natively supports [Future] values.
 class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
   late BaseDynamicCache<K, V> _wrappedCache;
-  final _waitingOnMap = <dynamic, List<Future<V>>>{};
+
+  final _waitingForMap = <dynamic, Set<Future<V>>>{};
   int _waitingOnCount = 0;
 
   AsyncBasicDynamicCache(final BaseDynamicCache<K, V> wrappedCache) {
@@ -26,11 +27,11 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
 
   /// Returns true if this key is associated with a future value.
   bool doesKeyHaveAssociatedFuture(dynamic key) =>
-      _waitingOnMap.containsKey(key);
+      _waitingForMap.containsKey(key);
 
   /// Waits for all future values passed into [setAsync] to complete.
   Future<void> awaitAllCurrentFutureValues() async {
-    await Future.wait(_waitingOnMap.values.expand((element) => element));
+    await Future.wait(_waitingForMap.values.expand((element) => element));
   }
 
   /// The current count of futures passed into [setAsync] that have not completed.
@@ -77,13 +78,20 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
   /// [AuxiliaryKeyManager.valueNeeded] is `true` this method will miss even
   /// if the future is known.
   ///
-  /// If [setAsync] is called after [getAsync], the new future will not be awaited.
+  /// If [setAsync] is called for [key] while [getAsync] is waiting, it will not be
+  /// caught by the waiting [getAsync]
   Future<V?> getAsync(dynamic key) async {
     V? futureValue;
-    if (_waitingOnMap.containsKey(key)) {
-      final results = await Future.wait(_waitingOnMap[key]!);
-      futureValue ??= results.last;
+    if (_waitingForMap.containsKey(key)) {
+      final futures = <Future<void>>[];
+      for (final future in _waitingForMap[key]!) {
+        futures.add(future.then((value) => futureValue = value));
+      }
+      await Future.wait(futures);
     }
+    // Incase this element is removed in between the future completion and the
+    // get; the future we are awaiting is the internal completer, not the
+    // actual passed in future.
     return get(key, throwOnUnsafe: false) ?? futureValue;
   }
 
@@ -98,25 +106,32 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
   /// Removes associated futures with [key] as soon as then complete.
   @override
   V? remove(dynamic key) {
-    _waitingOnMap[key]?.forEach((element) {
+    _waitingForMap[key]?.forEach((element) {
       element.then((value) => _wrappedCache.remove(key));
     });
+    _waitingForMap.remove(key);
     return _wrappedCache.remove(key);
   }
 
-  List<Future<V>> _futureSetForKey(dynamic key) {
-    return _waitingOnMap.putIfAbsent(key, () => []);
+  void _setFutureForKeys(Iterable<dynamic> keys, Future<V> future) {
+    for (final key in keys) {
+      _waitingForMap.putIfAbsent(key, () => {}).add(future);
+    }
   }
 
-  void _removeFutureForKey(dynamic key, Future<V> future) {
-    final keySet = _waitingOnMap[key];
-    keySet?.remove(future);
-    if (keySet?.isEmpty ?? false) {
-      _waitingOnMap.remove(key);
+  void _removeFutureForKeys(Iterable<dynamic> keys, Future<V> future) {
+    for (final key in keys) {
+      final cache = _waitingForMap[key]!;
+      cache.remove(future);
+      if (cache.isEmpty) {
+        _waitingForMap.remove(key);
+      }
     }
   }
 
   /// Associates [key] with the future result of [value].
+  ///
+  /// The [Future] that completes last will be the value that is reflected.
   ///
   /// If [key] is a main key, calling [getAsync] with [key] or any derived
   /// auxiliary key whose associated [AuxiliaryKeyManager.valueNeeded] is `false`
@@ -131,19 +146,15 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
   void setAsync(dynamic key, Future<V> value) {
     final completer = Completer<V>();
     if (keys.contains(key)) {
-      _futureSetForKey(key).add(completer.future);
-      final auxKeys =
-          _wrappedCache.getAuxiliaryKeysForMainKeyAndValue(key, null);
-      for (final auxKey in auxKeys) {
-        _futureSetForKey(auxKey).add(completer.future);
-      }
+      final keySet = <dynamic>{};
+      keySet.add(key);
+      keySet
+          .addAll(_wrappedCache.getAuxiliaryKeysForMainKeyAndValue(key, null));
+      _setFutureForKeys(keySet, completer.future);
       _waitingOnCount++;
       value.then((value) {
         set(key, value);
-        _removeFutureForKey(key, completer.future);
-        for (final auxKey in auxKeys) {
-          _removeFutureForKey(auxKey, completer.future);
-        }
+        _removeFutureForKeys(keySet, completer.future);
         completer.complete(value);
         _waitingOnCount--;
       });
@@ -151,19 +162,17 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
     }
     final mainKey = _wrappedCache.getMainKeyFromAuxiliaryKey(key, true);
     if (mainKey != null) {
-      _futureSetForKey(mainKey).add(completer.future);
-      final auxKeys =
-          _wrappedCache.getAuxiliaryKeysForMainKeyAndValue(mainKey, null);
-      for (final auxKey in auxKeys) {
-        _futureSetForKey(auxKey).add(completer.future);
-      }
+      final keySet = <dynamic>{};
+      keySet.add(key);
+      keySet.add(mainKey);
+      keySet.addAll(_wrappedCache
+          .getAuxiliaryKeysForMainKeyAndValue(mainKey, null)
+          .toSet());
+      _setFutureForKeys(keySet, completer.future);
       _waitingOnCount++;
       value.then((value) {
         set(mainKey, value);
-        _removeFutureForKey(mainKey, completer.future);
-        for (final auxKey in auxKeys) {
-          _removeFutureForKey(auxKey, completer.future);
-        }
+        _removeFutureForKeys(keySet, completer.future);
         completer.complete(value);
         _waitingOnCount--;
       });
@@ -172,44 +181,35 @@ class AsyncBasicDynamicCache<K, V> implements DynamicCache<K, V> {
 
     // New insertion
     if (key is K) {
-      _futureSetForKey(key).add(completer.future);
-      final auxKeys =
-          _wrappedCache.getAuxiliaryKeysForMainKeyAndValue(key, null);
-      for (final auxKey in auxKeys) {
-        _futureSetForKey(auxKey).add(completer.future);
-      }
+      final keySet = <dynamic>{};
+      keySet.add(key);
+      keySet
+          .addAll(_wrappedCache.getAuxiliaryKeysForMainKeyAndValue(key, null));
+      _setFutureForKeys(keySet, completer.future);
       _waitingOnCount++;
       value.then((value) {
         set(key, value);
-        _removeFutureForKey(key, completer.future);
-        for (final auxKey in auxKeys) {
-          _removeFutureForKey(auxKey, completer.future);
-        }
+        _removeFutureForKeys(keySet, completer.future);
         completer.complete(value);
         _waitingOnCount--;
       });
     } else {
-      _futureSetForKey(key).add(completer.future);
-      final otherKeys = <dynamic>{};
+      final keySet = <dynamic>{};
+      keySet.add(key);
       final maybeMainKey =
           _wrappedCache.generateNewMainKeyFromAuxiliaryKey(key);
       if (maybeMainKey != null) {
-        otherKeys.add(maybeMainKey);
-        otherKeys.addAll(_wrappedCache.getAuxiliaryKeysForMainKeyAndValue(
+        keySet.add(maybeMainKey);
+        keySet.addAll(_wrappedCache.getAuxiliaryKeysForMainKeyAndValue(
             maybeMainKey, null));
       }
-      for (final key in otherKeys) {
-        _futureSetForKey(key).add(completer.future);
-      }
+      _setFutureForKeys(keySet, completer.future);
       _waitingOnCount++;
       value.then((value) {
         final mainKey = _wrappedCache
             .generateNewMainKeyFromAuxiliaryKeyAndValue(key, value);
         set(mainKey, value);
-        _removeFutureForKey(key, completer.future);
-        for (final key in otherKeys) {
-          _removeFutureForKey(key, completer.future);
-        }
+        _removeFutureForKeys(keySet, completer.future);
         completer.complete(value);
         _waitingOnCount--;
       });

@@ -459,6 +459,21 @@ void main() {
       expect(await cache.getAsync(91), 91);
       expect(cache.doesKeyHaveAssociatedFuture(99), false);
       expect(cache.doesKeyHaveAssociatedFuture(91), false);
+
+      cache.setAsync(100, () async {
+        await Future.delayed(Duration(milliseconds: 1));
+        return 100;
+      }());
+      cache.setAsync(100, () async {
+        await Future.delayed(Duration(milliseconds: 10));
+        return 101;
+      }());
+      cache.setAsync(100, () async {
+        await Future.delayed(Duration(milliseconds: 3));
+        return 102;
+      }());
+
+      expect(await cache.getAsync(100), 101);
     });
     test('get future with aux keys', () async {
       final manager = AuxiliaryKeyManager<String, int, int>(

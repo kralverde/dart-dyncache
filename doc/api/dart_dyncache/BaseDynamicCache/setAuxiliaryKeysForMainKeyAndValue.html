@@ -78,12 +78,12 @@ in another auxiliary key set.</p>
     if (checkAuxiliaryKeys) {
       if (keys.contains(auxiliaryKey) || key == auxiliaryKey) {
         throw DynCacheAuxKeyCollisionException(
-            &#39;Auxiliary key $auxiliaryKey from ${auxiliaryKeyMap.id} using main key $key and value $value conflicts with the main keys&#39;);
+            &#39;Auxiliary key ($auxiliaryKey) from auxiliary key manager (${auxiliaryKeyMap.id}) using main key ($key) and value ($value) conflicts with the main keys&#39;);
       }
       for (final internalAuxiliaryKeyMap in _auxiliaryKeyMaps) {
         if (internalAuxiliaryKeyMap.containsKey(auxiliaryKey)) {
           throw DynCacheAuxKeyCollisionException(
-              &#39;Auxiliary key $auxiliaryKey from ${auxiliaryKeyMap.id} using main key $key and value $value conflicts with auxiliary key manager ${internalAuxiliaryKeyMap.id}&#39;);
+              &#39;Auxiliary key ($auxiliaryKey) from auxiliary key manager (${auxiliaryKeyMap.id}) using main key ($key) and value ($value) conflicts with auxiliary key manager (${internalAuxiliaryKeyMap.id})&#39;);
         }
       }
     }
@@ -176,7 +176,7 @@ in another auxiliary key set.</p>
 <footer>
   <span class="no-break">
     dart_dyncache
-      1.0.1
+      1.0.3
   </span>
 
   

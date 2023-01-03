@@ -75,9 +75,10 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 V? remove(dynamic key) {
-  _waitingOnMap[key]?.forEach((element) {
+  _waitingForMap[key]?.forEach((element) {
     element.then((value) =&gt; _wrappedCache.remove(key));
   });
+  _waitingForMap.remove(key);
   return _wrappedCache.remove(key);
 }</code></pre>
 </section>
@@ -153,7 +154,7 @@ V? remove(dynamic key) {
 <footer>
   <span class="no-break">
     dart_dyncache
-      1.0.1
+      1.0.3
   </span>
 
   
